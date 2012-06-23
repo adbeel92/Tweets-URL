@@ -1,0 +1,98 @@
+/*{
+    border:1px solid orange;
+}*/
+body { 
+    background: #efe;
+    font: 18px cursive;
+}
+span{
+    font: 14px cursive;    
+}
+a{
+    color: #040;
+    font-size: 14px;
+    text-decoration: none;
+}
+a:hover{
+    color: #020;
+    font-size: 15px;
+}
+#container{
+    text-align: left;
+}
+#container .box-tweet{
+    display: inline-block;
+    vertical-align: top;
+    width: 48.9%;
+    border:1px solid #ddd;
+    border-radius:15px;
+    margin:5px;
+}
+#photo{
+    background: white;
+    border:1px solid #eee;
+    border-radius: 5px;
+    margin-top: 30px;
+    margin-left: 30px;
+    padding: 3px;
+    width: 70px;
+}
+#text{
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    padding: 10px;
+    margin: 20px;
+}
+#text2{
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    padding: 10px;
+    margin: 20px;
+}
+h2{
+    
+}
+.url-input{
+    border-radius: 8px;
+    font: 16px monospace;
+    height: 28px;
+    margin-left: 10px;
+    padding-left: 10px;
+    width: 700px;
+}
+#small{
+    background: white;
+    border-radius: 0px 0px 15px 15px;
+    padding: 5px;
+}
+#small2{
+    background: white;
+    border-radius: 0px 0px 15px 15px;
+    padding: 10px;
+}
+#tweet .info-twitter{
+    display: inline-block;
+    vertical-align: top;
+}
+#tweet .info-twitter2{
+    display: inline-block;
+    vertical-align: top;
+}
+#info{
+    margin-top: 18px;
+    width: 70%;
+}
+#info2{
+    margin-top: 18px;
+    width: 70%;
+}
+#box-tweet{
+    width: 98.8%;
+    border:1px solid #ddd;
+    border-radius:15px;
+    margin:5px;
+}
+
+

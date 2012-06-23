@@ -1,0 +1,81 @@
+<?php
+class Persistence {
+    private static $_instancia=null;
+    public static function getInstancia(){
+        try {
+            if(self::$_instancia == null)
+                self::$_instancia = new Persistence();
+        } catch (Exception $e) {
+            throw $e;
+        }
+        return self::$_instancia;   
+    }
+    
+    private $_con;
+    public function __construct() {
+        try {
+            $this->_con = mysql_connect("localhost","root","password");
+            if(!$this->_con){
+                $this->_con=null;
+                throw new Exception("Error en la conexción del servidor");
+            }
+            $db = mysql_select_db("twitter",  $this->_con);
+            if(!$db){
+                mysql_close($this->_con);
+                $this->_con=null;
+                throw new Exception("Base de Datos inexistente");
+            }
+        } catch (Exception $e) {
+            error_log($e->getMessage()."\n\n", 3, "../log/Error.log");
+            throw $e;
+        }
+    }
+    
+    public function ejecutarConsulta($sql, $tipo){
+        try {
+            $rs = mysql_query($sql,  $this->_con);
+            if(mysql_errno($this->_con)!=0){
+                throw new Exception(mysql_errno($this->_con));
+            }
+            if($tipo==1){
+                $lista = array();
+                while($row = mysql_fetch_assoc($rs))
+                    $lista[]=$row;
+                mysql_free_result($rs);
+                return $lista;
+            }
+        } catch (Exception $e) {
+            error_log($e->getMessage()."\n", 3, "../log/Error.log");
+            error_log("Query:$sql\n\n", 3, "../log/Error.log");
+            throw $e;
+        }
+    }
+    
+    public function getAll(){
+        $sql = "SELECT * FROM `tweets` ORDER BY id desc";
+        $lista = $this->ejecutarConsulta($sql, 1);
+        return $lista;
+    }
+    public function insertar($id, $tweet_url,$screen_name,$content,$name,$photo_url,$tweeted_at,$background_url){
+        $now = date("Y-m-d H:i:s");
+        $sql = "INSERT INTO `twitter`.`tweets` (`id`, `tweet_url`, `screen_name`, `content`, `name`, `photo_url`, `created_at`, `updated_at`, `tweeted_at`, `background_url`) VALUES ('$id','$tweet_url','$screen_name','$content','$name','$photo_url','$now','$now','$tweeted_at','$background_url');";
+        $this->ejecutarConsulta($sql, 2);
+    }
+    public function eliminar($id){
+        $sql="DELETE FROM `twitter`.`tweets` WHERE `tweets`.`id` = $id";
+        $this->ejecutarConsulta($sql, 2);
+    }
+    public function modificar($id,$tweet_url,$screen_name,$content,$name,$photo_url,$tweeted_at,$background_url){
+        $now = date("Y-m-d H:i:s");
+        $sql = "UPDATE `twitter`.`tweets` SET `tweet_url`='$tweet_url', `screen_name`='$screen_name', `content`='$content', `name`='$name', `photo_url`='$photo_url', `updated_at`='$now', `tweeted_at`='$tweeted_at', `background_url`='$background_url' WHERE `tweets`.`id` = $id;";
+        $this->ejecutarConsulta($sql, 2);
+    }
+    public function getTweetBy($id){
+        $sql = "SELECT * FROM `tweets` where `id`=$id";
+        return $this->ejecutarConsulta($sql, 1);
+    }
+    
+}
+$miInstancia = Persistence::getInstancia();
+?>
+
